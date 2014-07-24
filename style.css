@@ -1,0 +1,39 @@
+
+body 
+{
+  background-color: rgba(92, 90, 90, 0.12);
+  border: 0;
+  font-size: 16px;
+  font: inherit;
+  margin:32px;
+  vertical-align: baseline;
+}
+
+code
+{
+	background-color: rgba(254, 254, 244, 0.58); ;
+	border:1px solid #D7D8C8;
+	font: inherit;
+	margin: 0 3em;
+	padding: .5em;
+}
+h1
+{	
+	text-align: center;
+}
+h3
+{
+	border-bottom: 1px solid #ccc;
+}
+samp
+{
+	background-color: rgba(254, 244, 244, 0.58); ;
+	border:1px solid #D7D8C8;
+	font: inherit;
+	margin: 0 3em;
+	padding: .5em
+}
+section
+{
+	width: 80%;
+}

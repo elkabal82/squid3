@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>SQUID 3</title>
+	<link rel="stylesheet" href="style.css" />
+	<!--<link rel="stylesheet" href="normalize.css" />-->
+	<meta name="description" content="Como instalar y configurar el SQUID3. solucionando el bloqueo de facebook y youtube." />
+	<meta name="author" content="Edgardo Torres"/>
+</head>
+<body>
+	<header>
+		<h1>INSTALACON Y CONFIGURACION DE SQUID 3 CON IPTABLES PARA BLOQUEAR YOUTUBE y FACEBOOK</h1>
+	</header>
+	<section>
+		<h2>INSTALACIÓN DEL SERVIDOR PROXY SQUID3</h2>
+		<h3>1.-Tecleamos en la terminal.</h3>
+		<code>sudo apt-get install squid3 squidclient squid-cgi</code>
+		<p>NOTA: cuando se este instalando el squid vean con atención que otros paquetes les recomienda instalar por que también utilizamos el servidor apache.</p>
+		<h3>2.-Para que esquid3 se inicie al encender la maquina ponemos.</h3>
+		<code>sudo update-rc.d squid3 defaults</code>
+		<p>Al instalar squid3 se crea un usuario y grupo llamado proxy el cual tiene que tener permisos sobre los archivos log y cache</p>
+		<h3>3.-Validar que exista el usuario y grupo, proxy.</h3>
+		<code>grep proxy /etc/{passwd,group} </code>
+		<p>saldría algo como esto</p>
+		<samp>/etc/passwd:proxy:x:13:13:proxy:/bin:/bin/sh
+ 		/etc/group:proxy:x:13:</samp>
+		<h3>4.-Validar que el usuario y grupo proxy son dueños de /var/spool/squid3 y de /var/log/squid3</h3>
+		<p>tecleamos esto:</p>
+		<code>ls -ld /var/spool/squid3 </code>
+		<p>saldría algo como esto</p>
+		<samp>drwxr-xr-x 18 proxy proxy 4096 2012-10-26 10:20 /var/spool/squid3</samp>
+		<p>tecleamos esto:</p>
+		<code>ls -ld /var/log/squid3/ </code>
+		<p>saldrìa algo como esto:</p>
+		<samp>drwxrwxrwx 2 proxy proxy 4096 2012-10-23 06:30 /var/log/squid3/</samp>
+		<p>NOTA:si no fueran dueños ponemos:</p>
+		<code>chown proxy:proxy /var/spool/squid3 </code>
+		<h3>5.-Para tener los permisos correctos de la carpeta, tecleamos esto:</h3>
+		<code>sudo chmod 755 /var/spool/squid3 </code>
+		<p>Listo hemos instalado nuestro proxy, ahora vamos a configurarlo.</p>
+	</section>
+	<section>
+		<h2>CONFIGURACION DEL ARCHIVO SQUID.CONF</h2>
+		<p>El archivo de configuración es /etc/squid3/squid.conf lo editamos con vi, nano o el que mas les guste.</p>
+		<p>Tecleamo esto:</p>
+		<code>sudo nano /etc/squid3/squid.conf</code>
+		<p>Comencemos a editar el archivo.</p>
+		<h3>1.- http_port 3128</h3>
+		<p>Buscamos que en el archivo </p>
+		<h3>2.- cache_mem 64 MB</h3>
+		<h3>3.- cache_dir ufs /var/spool/squid3 1000 16 256</h3>
+		<h3>4.- maximum_object_size 4096 KB</h3>
+		<h3>5.- logformat abcde %ts.%03tu %6tr %>a %Ss/%03Hs %<st %rm %ru %un %Sh/<A %mt [%tl] </h3>
+		<h3>6.- access_log /var/log/squid3/access.log abcde</h3>
+		<h3>7.- cache_log /var/log/squid3/cache.log</h3>
+		<h3>8.- cache_store_log /var/log/squid3/store.log</h3>
+		<h3>9.- logfile_rotate 0 </h3>
+		<h3>10.- acl</h3>
+		<h3>11.- http_acces</h3>
+		<h3>12.- error_directory /usr/share/squid3/errors/Spanish</h3>
+		<h3>13.- read_timeout 120 minutes</h3>
+	</section>
+
+	
+</body>
+</html>
