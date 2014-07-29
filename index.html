@@ -12,54 +12,242 @@
 	<header>
 		<h1>INSTALACON Y CONFIGURACION DE SQUID 3 CON IPTABLES PARA BLOQUEAR YOUTUBE y FACEBOOK</h1>
 	</header>
+	<nav>
+          <li><a href="#">Instalación</a></li>
+          <li><a href="#e">Configuración</a></li>
+          <li><a href="#">Instalacion y Configuracion de LOGROTATE</a></li>
+          <li><a href="#">Instalación y Configuracion de SQUIDVIEW</a></li>
+          <li><a href="#">Generacion De Reportes</a></li>
+          <li><a href="#">El Toque Final</a></li>
+          <li><a href="#">Referencias</a></li>
+      
+		
+	</nav>
 	<section>
+		
 		<h2>INSTALACIÓN DEL SERVIDOR PROXY SQUID3</h2>
 		<h3>1.-Tecleamos en la terminal.</h3>
-		<code>sudo apt-get install squid3 squidclient squid-cgi</code>
+		<code> <pre>sudo apt-get install squid3 squidclient squid-cgi</pre></code>
 		<p>NOTA: cuando se este instalando el squid vean con atención que otros paquetes les recomienda instalar por que también utilizamos el servidor apache.</p>
 		<h3>2.-Para que esquid3 se inicie al encender la maquina ponemos.</h3>
-		<code>sudo update-rc.d squid3 defaults</code>
+		<code><pre>sudo update-rc.d squid3 defaults</pre></code>
 		<p>Al instalar squid3 se crea un usuario y grupo llamado proxy el cual tiene que tener permisos sobre los archivos log y cache</p>
 		<h3>3.-Validar que exista el usuario y grupo, proxy.</h3>
-		<code>grep proxy /etc/{passwd,group} </code>
+		<code><pre>grep proxy /etc/{passwd,group} </pre></code>
 		<p>saldría algo como esto</p>
-		<samp>/etc/passwd:proxy:x:13:13:proxy:/bin:/bin/sh
- 		/etc/group:proxy:x:13:</samp>
+		<samp><pre>/etc/passwd:proxy:x:13:13:proxy:/bin:/bin/sh
+ 		/etc/group:proxy:x:13:</pre></samp>
 		<h3>4.-Validar que el usuario y grupo proxy son dueños de /var/spool/squid3 y de /var/log/squid3</h3>
 		<p>tecleamos esto:</p>
-		<code>ls -ld /var/spool/squid3 </code>
+		<code><pre>ls -ld /var/spool/squid3 </pre></code>
 		<p>saldría algo como esto</p>
-		<samp>drwxr-xr-x 18 proxy proxy 4096 2012-10-26 10:20 /var/spool/squid3</samp>
+		<samp><pre>drwxr-xr-x 18 proxy proxy 4096 2012-10-26 10:20 /var/spool/squid3</pre></samp>
 		<p>tecleamos esto:</p>
-		<code>ls -ld /var/log/squid3/ </code>
+		<code><pre>ls -ld /var/log/squid3/ </pre></code>
 		<p>saldrìa algo como esto:</p>
-		<samp>drwxrwxrwx 2 proxy proxy 4096 2012-10-23 06:30 /var/log/squid3/</samp>
+		<samp><pre>drwxrwxrwx 2 proxy proxy 4096 2012-10-23 06:30 /var/log/squid3/</pre></samp>
 		<p>NOTA:si no fueran dueños ponemos:</p>
 		<code>chown proxy:proxy /var/spool/squid3 </code>
 		<h3>5.-Para tener los permisos correctos de la carpeta, tecleamos esto:</h3>
-		<code>sudo chmod 755 /var/spool/squid3 </code>
+		<code><pre>sudo chmod 755 /var/spool/squid3 </pre></code>
 		<p>Listo hemos instalado nuestro proxy, ahora vamos a configurarlo.</p>
 	</section>
 	<section>
 		<h2>CONFIGURACION DEL ARCHIVO SQUID.CONF</h2>
 		<p>El archivo de configuración es /etc/squid3/squid.conf lo editamos con vi, nano o el que mas les guste.</p>
 		<p>Tecleamo esto:</p>
-		<code>sudo nano /etc/squid3/squid.conf</code>
+		<code><pre>sudo nano /etc/squid3/squid.conf</pre></code>
 		<p>Comencemos a editar el archivo.</p>
+		<p>Buscamos que en el archivo tengamos esto asi: </p>
 		<h3>1.- http_port 3128</h3>
-		<p>Buscamos que en el archivo </p>
+		<p>Descomentamos y colocamos el tamaño, en mi caso lo pongo en 64 MB</p>
 		<h3>2.- cache_mem 64 MB</h3>
+		<p>Descomentamos y asi es como lo tengo yo:</p>
 		<h3>3.- cache_dir ufs /var/spool/squid3 1000 16 256</h3>
+		<p>Descomentamos esto:</p>
 		<h3>4.- maximum_object_size 4096 KB</h3>
-		<h3>5.- logformat abcde %ts.%03tu %6tr %>a %Ss/%03Hs %<st %rm %ru %un %Sh/<A %mt [%tl] </h3>
+		<p>En el archivo se ven varios ejemplos comentados, nosotros creamos uno llamado abcd, quedando de esta forma:</p>
+		<h3>5.- logformat abcde %ts.%03tu %6tr %>a %Ss/%03Hs%&lt;st%rm %ru %un %Sh/&lt;A %mt [%tl]</h3>
+		<p>Quedando de esta forma en nuestro archivo:</p>
+		<samp><pre>
+		#       The default formats available (which do not need re-defining) are:
+		#       
+		#logformat squid %ts.%03tu %6tr %>a %Ss/%03>Hs %&lt;st %rm %ru %un %Sh/%&lt;A %mt
+		#logformat squidmime %ts.%03tu %6tr %>a %Ss/%03>Hs %&lt;st %rm %ru %un %Sh/%&lt;A %mt$
+		#logformat common %>a %ui %un [%tl] "%rm %ru HTTP/%rv" %>Hs %&lt;st %Ss:%Sh
+		#logformat combined %>a %ui %un [%tl] "%rm %ru HTTP/%rv" %>Hs %&lt;st "%{Referer}>$
+		#Default:
+		logformat abcde %ts.%03tu %6tr %>a %Ss/%03Hs %&lt;st %rm %ru %un %Sh/&lt;A %mt [%tl]
+		# none
+
+			
+		</pre></samp>
+		<p>Descomentamos y ponemos el nombre del formato que creamos, quedando asì:</p>
 		<h3>6.- access_log /var/log/squid3/access.log abcde</h3>
+		<p>Descomentamos esto:</p>
 		<h3>7.- cache_log /var/log/squid3/cache.log</h3>
+		<p>Descomentamos esto:</p>
 		<h3>8.- cache_store_log /var/log/squid3/store.log</h3>
+		<p>Descomentamos esto y si no tiene un cero se lo ponemos, de esta forma:</p>
 		<h3>9.- logfile_rotate 0 </h3>
+		<p>Aqui agregamos las reglas a usar</p>
+		<p>NOTA: agregare mi archivo squid.conf para mayor referencia</p>
 		<h3>10.- acl</h3>
+		<samp><pre>
+# Recommended minimum configuration:
+#
+acl manager proto cache_object
+acl localhost src 127.0.0.1/32 ::1
+acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
+#
+#
+#
+acl ipslibres src "/etc/squid/ipslibres.txt"
+
+#AGRUPA TODA LA RED EN LA QUE ESTAMOS
+acl redlocal src 172.168.2.0/24
+
+#SE ENCUENTRAN LAS LOS DIMINIOS PERMITIDOS
+acl dominiospermitidos dstdomain "/etc/squid/dominiospermitidos.txt"
+
+#SE ENCUENTRAN LAS PAGINAS PERMITIDAS
+acl pagpermitidas url_regex -i "/etc/squid/pagpermitidas.txt"
+#BLOQUEA LAS PALABRAS QUE ESTAN EM EL ARCHVIO Y QUE APARECE EN LA URL
+acl nopermitir url_regex -i "/etc/squid/nopermitir.txt"
+
+#ESTAN LAS IPS QUE TIENE PERMISO DE ANTRAR A OTRAS PAGUINAS PERO NO A YOUTUB ET$
+acl ipspermitidas src "/etc/squid/ipspermitidas.txt"
+
+#PERMITE LA CONECCION HTTPS
+acl puerto port 443 631
+		</pre></samp>
+		<p>Aqui permitimos las reglas</p>
+		<p>NOTA: agregare mi archivo squid.conf para mayor referencia</p>
+		<samp><pre>
+# Recommended minimum Access Permission configuration:
+#
+# Only allow cachemgr access from localhost
+#
+#
+#
+#PERMITIMOS TODO A ESTA ACL
+http_access allow ipslibres
+#DENEGAMOS PARA TODAS LAS ACL DESPUES DE ESTA LAS PALABRAS QUE SE ENCUENTRAN
+#EN EL ARCHIVO nopermitir.txt Y ESTA ACOMPA?^?ADA DE LAS ACLs dominiospermitidos
+#y pagpermitidas POR SI ALGUNA PALABRA COMO HOTMAIL.COM LA TOMA COMO
+#PALABRA NO PERMITIDA LE DE ACCESO
+http_access deny nopermitir !dominiospermitidos !pagpermitidas
+
+#CON ESTA PERMITIMOS A LAS IPS QUE ESTAN EN EL ARCHIVO ipspermitidas.txt
+#ACCESOS A TODAS LAS PAGINAS MENOS A LAS BLOQUEADAS POR EL ARCHIVO
+#nopermitir.txt
+http_access allow ipspermitidas
+#CON ESTO BLOQUEAMOS TODAS LAS PAGINAS SOLO PERMITIENDO EL ACCESO A LAS
+#PAGINAS DE LOS ARCHIVOS pagpermitidas.txt Y dominios permitidos.txt
+http_access deny redlocal !pagpermitidas !dominiospermitidos !puerto
+
+#DAMOS EL ACCESOS A LA RED SEGUN LO QUE SE PERMITIO EN LAS REGLAS DE ARRIBA
+http_access allow redlocal
+
+http_access allow puerto
+		</pre></samp>
 		<h3>11.- http_acces</h3>
+		<p>Aqui es donde pueden modificar el idioma de las paginas de error</p>
+		<p>NOTA: Yo lo deje en ingles</p>
+
 		<h3>12.- error_directory /usr/share/squid3/errors/Spanish</h3>
+		<p>Esta es opcional, pero en mi caso tenia un apagina que tardaba mas de 5 minutos en cargar y tuvimos que aumentar el tiempo para que el proxi no mandara error al cargar la pagina</p>
 		<h3>13.- read_timeout 120 minutes</h3>
+	</section>
+	<section>
+		<h3>INSTALACIÓN Y CONFIGURACIÓN DE LOGROTATE</h3>
+		<p><em>NOTA:Pendiente para hacer pruebas que pasa si no lo instalamos ¿Funcionara igual?</em></p>
+	</section>
+	<section>
+		<h3>INSTALACIÓN Y CONFIGURACIÓN DE SQUIDVIEW</h3>
+		<p>Es para ver en tiempo real que ip entra a que pagina</p>
+		<code>
+			<pre>sudo apt-get install squidview</pre>
+		</code>
+		<p>NOTA: squidview busca el archivo en /var/log/squid/access.log pero nosotros trabajamos con squid3, por tal motivo no encuentra el archivo, por que nosotros lo tenemos en /var/log/squid3/access.log</p>
+		<p>Así que verificamos que exista la carpeta squid en la carpeta /var/log, si no existe la creamos:</p>
+		<code>
+			<pre>mkdir /var/log/squid </pre>
+		</code>
+		<p>Creamos el enlace, tecleando esto:</p>
+		<code>
+			<pre>sudo ln -s /var/log/squid3/access.log /var/log/squid</pre>
+		</code>
+		<p>Para correr el squidview teclamos:</p>
+		<code>
+			<pre>sudo squidview</pre>
+		</code>
+		<p>NOTA: lo que verán en la pantalla depende de la configuración del archivo access.log</p>
+	</section>
+	<section>
+		<h3>GENERACIÓN AUTOMATICA DE REPORTES DIARIOS Y MANUALMENTE</h3>
+		<p>Para generar los reportes instalamos SARG, tecleamos esto:</p>
+		<code>
+			<pre>sudo apt-get install sarg</pre>
+		</code>
+		<p>Editamos el archivo sarg.conf que se encuentra en /etc/squid tecleando esto:</p>
+		<samp>
+			<pre>
+language Spanish
+access_log /var/log/squid3/access.log
+title "Reportes de Acceso Web por Usuarios"
+output_dir /var/www/squid-reports/Manual
+			</pre>
+		</samp>
+		<p>NOTA:Si algunas lineas no se encuentran en el archivo simplemente agregenlas.</p>
+		<p>Creamos el directorio en al cual se almacenan los reportes manuales, teclamos estp:</p>
+		<code>
+			<pre>mkdir /var/www/squid-reports/Manual</pre>
+		</code>
+		<p>Para crear el rerpote Manual del dia en curso, tecleamos:</p>
+		<code>
+			<pre>sudo sarg</pre>
+		</code>
+		<p>Para crear los reportes automaticos creamos el archivo, tecleando esto:</p>
+		<code>
+			<pre>sudo nano /etc/cron.daily/sarg</pre>
+		</code>
+		<p>Agregamos esto al archivo:</p>
+		<code>
+			<pre>
+# Eliminar reportes diarios con mas de 10 dias de antiguedad
+echo "Rotacion diaria del dia `date +%d-%m-%Y`" >> /var/log/squid3/sarg-rotate.log
+find /var/www/squid-reports/Diario -type d -mtime +10 -exec rm -rf {} \; >> /var/log/squid3/sarg-rotate.log 2>&1
+rm -rf /var/www/squid-reports/Diario/index.html
+
+# Ejeuctar sarg
+#!/bin/bash
+exec /usr/bin/sarg \
+-o /var/www/squid-reports/Diario \
+-d "$(date --date "1 day ago" +%d/%m/%Y)" > /dev/null 2>&1
+exit 0
+		</pre>
+		</code>
+		<p>Le damos permisos al archivo, tecleando esto:</p>
+		<code>
+			<pre>sudo chmod +x /etc/cron.daily/sarg</pre>
+		</code>
+		<p>Creamos la carpeta de Diario, tecleando esto:</p>
+		<code>
+			<pre>sudo mkdir /var/www/squid-reports/Diario</pre>
+		</code>
+		<p>Hacemos que crontab lo corra automaticamente a las 6:30 a.m. Todos los días.</p>
+		<p>Editamos el archivo crontab, tecleando esto:</p>
+		<code>
+			<pre>sudo nano /etc/crontab</pre>
+		</code>
+		<p>y agregamos esta linea</p>
+		<code>
+			<pre>30 6   * * *   root    . /etc/cron.daily/sarg</pre>
+		</code>
+	</section>
+	<section>
+		<h3>EL TOQUE FINAL</h3>
 	</section>
 
 	
