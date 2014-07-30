@@ -55,7 +55,7 @@
 	<section>
 		<h2>CONFIGURACION DEL ARCHIVO SQUID.CONF</h2>
 		<p>El archivo de configuración es /etc/squid3/squid.conf lo editamos con vi, nano o el que mas les guste.</p>
-		<p>Tecleamo esto:</p>
+		<p>Tecleamos esto:</p>
 		<code><pre>sudo nano /etc/squid3/squid.conf</pre></code>
 		<p>Comencemos a editar el archivo.</p>
 		<p>Buscamos que en el archivo tengamos esto asi: </p>
@@ -90,7 +90,7 @@
 		<h3>8.- cache_store_log /var/log/squid3/store.log</h3>
 		<p>Descomentamos esto y si no tiene un cero se lo ponemos, de esta forma:</p>
 		<h3>9.- logfile_rotate 0 </h3>
-		<p>Aqui agregamos las reglas a usar</p>
+		<p>Aquí agregamos las reglas a usar</p>
 		<p>NOTA: agregare mi archivo squid.conf para mayor referencia</p>
 		<h3>10.- acl</h3>
 		<samp><pre>
@@ -156,15 +156,63 @@ http_access allow puerto
 		<p>NOTA: Yo lo deje en ingles</p>
 
 		<h3>12.- error_directory /usr/share/squid3/errors/Spanish</h3>
-		<p>Esta es opcional, pero en mi caso tenia un apagina que tardaba mas de 5 minutos en cargar y tuvimos que aumentar el tiempo para que el proxi no mandara error al cargar la pagina</p>
+		<p>Esta es opcional, pero en mi caso tenia una pagina que tardaba mas de 5 minutos en cargar y tuvimos que aumentar el tiempo para que el proxi no mandara error al cargar la pagina</p>
 		<h3>13.- read_timeout 120 minutes</h3>
 	</section>
 	<section>
-		<h3>INSTALACIÓN Y CONFIGURACIÓN DE LOGROTATE</h3>
-		<p><em>NOTA:Pendiente para hacer pruebas que pasa si no lo instalamos ¿Funcionara igual?</em></p>
+		<h2>INSTALACIÓN Y CONFIGURACIÓN DE LOGROTATE</h2>
+		<p>Instalamos tecleando esto:</p>
+		<code>
+			<pre>sudo apt-get install logrotate</pre>
+		</code>
+		<p>Editamos el archivo que se encuentra en /etc/logrotate.d escribimos esto: </p>
+		<code>
+			<pre>sudo nano /etc/logrotate.d/squid3</pre>
+		</code>
+		<p>Colocamos esto en el archivo:</p>
+		<samp>
+			<pre>
+#
+#       Logrotate for squid3.
+#       Rotate logs every week and keep mountly logs for reporting
+#
+/var/log/squid3/access.log {  
+    weekly
+    rotate 5
+    copytruncate
+    compress
+    notifempty
+    missingok
+}
+
+/var/log/squid3/cache.log {
+    weekly
+    rotate 5
+    copytruncate
+    compress
+    notifempty
+    missingok
+}
+
+/var/log/squid3/store.log {
+    weekly
+    rotate 5
+    copytruncate
+    compress
+    notifempty
+    missingok
+# This script asks squid to rotate its logs on its own.
+# Restarting squid is a long process and it is not worth
+# doing it just to rotate logs
+    postrotate 
+      /usr/sbin/squid3 -k rotate
+    endscript
+}
+			</pre>
+		</samp>
 	</section>
 	<section>
-		<h3>INSTALACIÓN Y CONFIGURACIÓN DE SQUIDVIEW</h3>
+		<h2>INSTALACIÓN Y CONFIGURACIÓN DE SQUIDVIEW</h2>
 		<p>Es para ver en tiempo real que ip entra a que pagina</p>
 		<code>
 			<pre>sudo apt-get install squidview</pre>
@@ -185,7 +233,7 @@ http_access allow puerto
 		<p>NOTA: lo que verán en la pantalla depende de la configuración del archivo access.log</p>
 	</section>
 	<section>
-		<h3>GENERACIÓN AUTOMATICA DE REPORTES DIARIOS Y MANUALMENTE</h3>
+		<h2>GENERACIÓN AUTOMATICA DE REPORTES DIARIOS Y MANUALMENTE</h2>
 		<p>Para generar los reportes instalamos SARG, tecleamos esto:</p>
 		<code>
 			<pre>sudo apt-get install sarg</pre>
