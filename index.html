@@ -13,19 +13,19 @@
 		<h1>INSTALACON Y CONFIGURACION DE SQUID 3 CON IPTABLES PARA BLOQUEAR YOUTUBE y FACEBOOK</h1>
 	</header>
 	<nav>
-          <li><a href="#">Instalación</a></li>
-          <li><a href="#e">Configuración</a></li>
-          <li><a href="#">Instalacion y Configuracion de LOGROTATE</a></li>
-          <li><a href="#">Instalación y Configuracion de SQUIDVIEW</a></li>
-          <li><a href="#">Generacion De Reportes</a></li>
-          <li><a href="#">El Toque Final</a></li>
-          <li><a href="#">Referencias</a></li>
+          <li><a href="#instalacion">Instalación</a></li>
+          <li><a href="#configuracion">Configuración</a></li>
+          <li><a href="#logrotate">Instalacion y Configuracion de LOGROTATE</a></li>
+          <li><a href="#squidview">Instalación y Configuracion de SQUIDVIEW</a></li>
+          <li><a href="#Generacion De Reportes">Generacion De Reportes</a></li>
+          <li><a href="#El Toque Final">El Toque Final</a></li>
+          <li><a href="#Referencias">Referencias</a></li>
       
 		
 	</nav>
 	<section>
 		
-		<h2>INSTALACIÓN DEL SERVIDOR PROXY SQUID3</h2>
+		<h2><a id="instalacion">INSTALACIÓN DEL SERVIDOR PROXY SQUID3</a></h2>
 		<h3>1.-Tecleamos en la terminal.</h3>
 		<code> <pre>sudo apt-get install squid3 squidclient squid-cgi</pre></code>
 		<p>NOTA: cuando se este instalando el squid vean con atención que otros paquetes les recomienda instalar por que también utilizamos el servidor apache.</p>
@@ -53,7 +53,7 @@
 		<p>Listo hemos instalado nuestro proxy, ahora vamos a configurarlo.</p>
 	</section>
 	<section>
-		<h2>CONFIGURACION DEL ARCHIVO SQUID.CONF</h2>
+		<h2><a id="configuracion">CONFIGURACION DEL ARCHIVO SQUID.CONF</a></h2>
 		<p>El archivo de configuración es /etc/squid3/squid.conf lo editamos con vi, nano o el que mas les guste.</p>
 		<p>Tecleamos esto:</p>
 		<code><pre>sudo nano /etc/squid3/squid.conf</pre></code>
@@ -160,7 +160,7 @@ http_access allow puerto
 		<h3>13.- read_timeout 120 minutes</h3>
 	</section>
 	<section>
-		<h2>INSTALACIÓN Y CONFIGURACIÓN DE LOGROTATE</h2>
+		<h2><a id="logrotate">INSTALACIÓN Y CONFIGURACIÓN DE LOGROTATE</a></h2>
 		<p>Instalamos tecleando esto:</p>
 		<code>
 			<pre>sudo apt-get install logrotate</pre>
@@ -212,7 +212,7 @@ http_access allow puerto
 		</samp>
 	</section>
 	<section>
-		<h2>INSTALACIÓN Y CONFIGURACIÓN DE SQUIDVIEW</h2>
+		<h2><a id="squidview">INSTALACIÓN Y CONFIGURACIÓN DE SQUIDVIEW</a></h2>
 		<p>Es para ver en tiempo real que ip entra a que pagina</p>
 		<code>
 			<pre>sudo apt-get install squidview</pre>
@@ -233,7 +233,7 @@ http_access allow puerto
 		<p>NOTA: lo que verán en la pantalla depende de la configuración del archivo access.log</p>
 	</section>
 	<section>
-		<h2>GENERACIÓN AUTOMATICA DE REPORTES DIARIOS Y MANUALMENTE</h2>
+		<h2><a id="Generacion De Reportes">GENERACIÓN AUTOMATICA DE REPORTES DIARIOS Y MANUALMENTE</a></h2>
 		<p>Para generar los reportes instalamos SARG, tecleamos esto:</p>
 		<code>
 			<pre>sudo apt-get install sarg</pre>
@@ -295,7 +295,7 @@ exit 0
 		</code>
 	</section>
 	<section>
-		<h3>EL TOQUE FINAL</h3>
+		<h2><a id="El Toque Final">EL TOQUE FINAL</a></h2>
 		<p>Tenemos que hacer que nuestro servidor proxy se convierta en la puerta de enlace de las maquinas de los usuarios, editamos el archivo tecleando esto:</p>
 		<code>
 			<pre>sudo nano /etc/sysctl.conf</pre>
@@ -354,8 +354,8 @@ sudo iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 443 -j REDIRECT --to-p
 		<p>Recuerda poner los DNS para que funcionen otros programas</p>
 		<p>Listo con esto terminamos, espero sea de su ayuda.</p>
 	</section>
-	<footer>
-		
-	</footer>
+	<section>
+		<h2><a id="Referencias"> REFERENCIAS</a></h2>
+	</section>
 </body>
 </html>
