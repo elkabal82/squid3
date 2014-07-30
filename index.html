@@ -296,8 +296,66 @@ exit 0
 	</section>
 	<section>
 		<h3>EL TOQUE FINAL</h3>
-	</section>
+		<p>Tenemos que hacer que nuestro servidor proxy se convierta en la puerta de enlace de las maquinas de los usuarios, editamos el archivo tecleando esto:</p>
+		<code>
+			<pre>sudo nano /etc/sysctl.conf</pre>
+		</code>
+		<p>Despues buscamos esta linea, la habilitamos y le ponemos un 1, quedando así:</p>
+		<samp>
+			<pre>net.ipv4.ip_forward=1</pre>
+		</samp>
+		<p>Guardamos y cerramos el archivo</p>
+		<p>Ahora editamos el siguiente archivo colocandole un 1, tecleamos esto:</p>
+		<code>
+			<pre>sudo nano /proc/sys/net/ipv4/ip_forward</pre>
+		</code>
+		<p>Listo con esto ya pueden entrar los paquetes por la tarjeta de red de nuestro servidor, ahora solo falta direccionar esos paquetes a nuestro proxy, creamos el archivo, tecleando esto:</p>
+		<code>
+			<pre>sudo nano /etc/init.d/redireccionamientoeth1</pre>
+		</code>
+		<p>Ingresamos esto en el archivo:</p>
+		<p>NOTA: Mi tarjeta de red, el sistema me la reconoce como eth1, verifica en tu sistema como es que te la reconoce y si es diferente solo cambia el eth1 por la tuya.</p>
+		<p>Existen servidore proxy publicos que salen por otros puertos, simplemente agrega ese puerto en el archivo y listo.</p>
+		<code>
+			<pre>
+udo iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 3128 -j REDIRECT --to-port 3128 
 
-	
+sudo iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 80 -j REDIRECT --to-port 3128 
+
+sudo iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 8080 -j REDIRECT --to-port 3128 
+
+sudo iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 443 -j REDIRECT --to-port 3128
+			</pre>
+		</code>
+		<p>Guardamos y cerramos</p>
+		<p>Le damos permisos de ejecución:</p>
+		<code>
+			<pre>sudo chmod +x /etc/init.d/redireccionamientoeth1</pre>
+		</code>
+		<p>Creamos un enlace  en /etc/rc2 para que se ejecute al iniciar la maquina, tecleamos esto:</p>
+		<code>
+			<pre>sudo ln -sf /etc/init.d/redireccionamientoeth1 /etc/rc2.d/S98redireccionamientoeth1</pre>
+		</code>
+		<p>NOTA:para el enlace se tiene que hacer con toda la ruta. Ejemplo si tu ya estas en la ruta:/etc/init.d $
+		de todas formas tiene que poner toda la ruta tal y como esta en el ejemplo</p>
+		<p>para ver las reglas que pone el archivo teclea esto:</p>
+		<code>
+			<pre>sudo iptables -t nat -nL</pre>
+		</code>
+		<p>Para borrar las reglas que pone el archivo tecleamos esto:</p>
+		<code>
+			<pre>sudo iptables -t nat -F</pre>
+		</code>
+		<p>Hasta aquí ya tiene perfectamente tu servidor proxy ya solo falta ir a cada maquina y configurar el navegador  para que pase por el proxy, Si así es, tienes que hacerlo maquina por maquina y navegador por navegador, existe otra opción para que el navegador de cada maquina encuentre la configuración automáticamente pero eso no lo he implementado.</p>
+		<p>Nota: cada navegador tiene su forma particular de hacer que pase por el proxy, así que solo vete a las preferencias o herramientas de tu navegador y configuralo, no es difícil, solo recuerda que la ip es la de tu servido y el puerto por predeterminado es el 3128 quedando algo así 192.168.0.3:3128</p>	
+
+		<h3>CONFIGURACIÓN DE LA MAQUINA DEL USUARIO</h3>
+		<p>En la configuracion de red seria solo ponerle en GETWAY o PUERTA DE ENLACE la direccion IP del servidor proxy</p>
+		<p>Recuerda poner los DNS para que funcionen otros programas</p>
+		<p>Listo con esto terminamos, espero sea de su ayuda.</p>
+	</section>
+	<footer>
+		
+	</footer>
 </body>
 </html>
