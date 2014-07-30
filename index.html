@@ -58,11 +58,11 @@
 		<p>Tecleamos esto:</p>
 		<code><pre>sudo nano /etc/squid3/squid.conf</pre></code>
 		<p>Comencemos a editar el archivo.</p>
-		<p>Buscamos que en el archivo tengamos esto asi: </p>
+		<p>Buscamos que en el archivo tengamos esto así: </p>
 		<h3>1.- http_port 3128</h3>
 		<p>Descomentamos y colocamos el tamaño, en mi caso lo pongo en 64 MB</p>
 		<h3>2.- cache_mem 64 MB</h3>
-		<p>Descomentamos y asi es como lo tengo yo:</p>
+		<p>Descomentamos y así es como lo tengo yo:</p>
 		<h3>3.- cache_dir ufs /var/spool/squid3 1000 16 256</h3>
 		<p>Descomentamos esto:</p>
 		<h3>4.- maximum_object_size 4096 KB</h3>
@@ -82,7 +82,7 @@
 
 			
 		</pre></samp>
-		<p>Descomentamos y ponemos el nombre del formato que creamos, quedando asì:</p>
+		<p>Descomentamos y ponemos el nombre del formato que creamos, quedando así:</p>
 		<h3>6.- access_log /var/log/squid3/access.log abcde</h3>
 		<p>Descomentamos esto:</p>
 		<h3>7.- cache_log /var/log/squid3/cache.log</h3>
@@ -121,7 +121,7 @@ acl ipspermitidas src "/etc/squid/ipspermitidas.txt"
 #PERMITE LA CONECCION HTTPS
 acl puerto port 443 631
 		</pre></samp>
-		<p>Aqui permitimos las reglas</p>
+		<p>Aquí permitimos las reglas</p>
 		<p>NOTA: agregare mi archivo squid.conf para mayor referencia</p>
 		<samp><pre>
 # Recommended minimum Access Permission configuration:
@@ -152,7 +152,7 @@ http_access allow redlocal
 http_access allow puerto
 		</pre></samp>
 		<h3>11.- http_acces</h3>
-		<p>Aqui es donde pueden modificar el idioma de las paginas de error</p>
+		<p>Aquí es donde pueden modificar el idioma de las paginas de error</p>
 		<p>NOTA: Yo lo deje en ingles</p>
 
 		<h3>12.- error_directory /usr/share/squid3/errors/Spanish</h3>
@@ -238,7 +238,7 @@ http_access allow puerto
 		<code>
 			<pre>sudo apt-get install sarg</pre>
 		</code>
-		<p>Editamos el archivo sarg.conf que se encuentra en /etc/squid tecleando esto:</p>
+		<p>Editamos el archivo sarg.conf que se encuentra en /etc/squid tecleamos esto:</p>
 		<samp>
 			<pre>
 language Spanish
@@ -248,15 +248,15 @@ output_dir /var/www/squid-reports/Manual
 			</pre>
 		</samp>
 		<p>NOTA:Si algunas lineas no se encuentran en el archivo simplemente agregenlas.</p>
-		<p>Creamos el directorio en al cual se almacenan los reportes manuales, teclamos estp:</p>
+		<p>Creamos el directorio en al cual se almacenan los reportes manuales, tecleamos esto:</p>
 		<code>
 			<pre>mkdir /var/www/squid-reports/Manual</pre>
 		</code>
-		<p>Para crear el rerpote Manual del dia en curso, tecleamos:</p>
+		<p>Para crear el rerpote Manual del día en curso, tecleamos:</p>
 		<code>
 			<pre>sudo sarg</pre>
 		</code>
-		<p>Para crear los reportes automaticos creamos el archivo, tecleando esto:</p>
+		<p>Para crear los reportes automáticos creamos el archivo, tecleando esto:</p>
 		<code>
 			<pre>sudo nano /etc/cron.daily/sarg</pre>
 		</code>
@@ -284,7 +284,7 @@ exit 0
 		<code>
 			<pre>sudo mkdir /var/www/squid-reports/Diario</pre>
 		</code>
-		<p>Hacemos que crontab lo corra automaticamente a las 6:30 a.m. Todos los días.</p>
+		<p>Hacemos que crontab lo corra automáticamente a las 6:30 a.m. Todos los días.</p>
 		<p>Editamos el archivo crontab, tecleando esto:</p>
 		<code>
 			<pre>sudo nano /etc/crontab</pre>
@@ -300,12 +300,12 @@ exit 0
 		<code>
 			<pre>sudo nano /etc/sysctl.conf</pre>
 		</code>
-		<p>Despues buscamos esta linea, la habilitamos y le ponemos un 1, quedando así:</p>
+		<p>Después buscamos esta linea, la habilitamos y le ponemos un 1, quedando así:</p>
 		<samp>
 			<pre>net.ipv4.ip_forward=1</pre>
 		</samp>
 		<p>Guardamos y cerramos el archivo</p>
-		<p>Ahora editamos el siguiente archivo colocandole un 1, tecleamos esto:</p>
+		<p>Ahora editamos el siguiente archivo, colocándole un 1, tecleamos esto:</p>
 		<code>
 			<pre>sudo nano /proc/sys/net/ipv4/ip_forward</pre>
 		</code>
@@ -315,7 +315,7 @@ exit 0
 		</code>
 		<p>Ingresamos esto en el archivo:</p>
 		<p>NOTA: Mi tarjeta de red, el sistema me la reconoce como eth1, verifica en tu sistema como es que te la reconoce y si es diferente solo cambia el eth1 por la tuya.</p>
-		<p>Existen servidore proxy publicos que salen por otros puertos, simplemente agrega ese puerto en el archivo y listo.</p>
+		<p>Existen servidores proxy públicos que salen por otros puertos, simplemente agrega ese puerto en el archivo y listo.</p>
 		<code>
 			<pre>
 udo iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 3128 -j REDIRECT --to-port 3128 
@@ -350,12 +350,15 @@ sudo iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 443 -j REDIRECT --to-p
 		<p>Nota: cada navegador tiene su forma particular de hacer que pase por el proxy, así que solo vete a las preferencias o herramientas de tu navegador y configuralo, no es difícil, solo recuerda que la ip es la de tu servido y el puerto por predeterminado es el 3128 quedando algo así 192.168.0.3:3128</p>	
 
 		<h3>CONFIGURACIÓN DE LA MAQUINA DEL USUARIO</h3>
-		<p>En la configuracion de red seria solo ponerle en GETWAY o PUERTA DE ENLACE la direccion IP del servidor proxy</p>
+		<p>En la configuración de red seria solo ponerle en GETWAY o PUERTA DE ENLACE la dirección IP del servidor proxy</p>
 		<p>Recuerda poner los DNS para que funcionen otros programas</p>
 		<p>Listo con esto terminamos, espero sea de su ayuda.</p>
 	</section>
 	<section>
 		<h2><a id="Referencias"> REFERENCIAS</a></h2>
+		<a href="http://www.squid-cache.org/" target="_blank">Pagina principal de squid</a>
+		<br>
+		<a href="http://tuxjm.net/docs/Manual_de_Instalacion_de_Servidor_Proxy_Web_con_Ubuntu_Server_y_Squid/html-multiples/" target="_blank">Obligatorio leer esto.</a>
 	</section>
 </body>
 </html>

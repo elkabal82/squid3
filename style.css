@@ -1,6 +1,7 @@
 nav li a
 {
-	color:rgba(254, 244, 244, 0.58);
+	color:rgba(254, 244, 244, .58);
+	text-decoration:none;
 }
 
 body 
@@ -40,6 +41,7 @@ h3
 nav 
 {
 	background-color:#B22222;
+	border-radius: 20%;
 	color: #FDFDFB;
   	width:170px;
   	float:left;
@@ -76,6 +78,7 @@ section
 {
 	nav
 	{
+	border-radius:0;
 	float:none;
     position:static;
     width:auto;
