@@ -2,9 +2,8 @@
 <html lang="es">
 <head>
 	<meta charset="UTF-8">
-	<title>SQUID 3</title>
+	<title>SQUID3</title>
 	<link rel="stylesheet" href="style.css" />
-	<!--<link rel="stylesheet" href="normalize.css" />-->
 	<meta name="description" content="Como instalar y configurar el SQUID3. solucionando el bloqueo de facebook y youtube." />
 	<meta name="author" content="Edgardo Torres"/>
 </head>
@@ -19,13 +18,16 @@
           <li><a href="#squidview">Instalación y Configuracion de SQUIDVIEW</a></li>
           <li><a href="#Generacion De Reportes">Generacion De Reportes</a></li>
           <li><a href="#El Toque Final">El Toque Final</a></li>
-          <li><a href="#Referencias">Referencias</a></li>
-      
-		
+          <li><a href="#Referencias">Referencias</a></li>	
 	</nav>
 	<section>
 		
 		<h2><a id="instalacion">INSTALACIÓN DEL SERVIDOR PROXY SQUID3</a></h2>
+		<p>Este proxy se implemento en una maquina de 1gb de ram, un procesador Pentium D y un sistema operativo Ubuntu 12.04LTS. Estoy seguro que si siguen esta guía les funcionara el servidor proxy, Pero si quieren entender bien todo; pasen al apartado de referencias.</p>
+		<p>IMPORTANTE:
+		sudo squid3 -k parse : Para comprobar la configuración del archivo squid.conf
+		sudo /etc/init.d/squid3 restart : Para reiniciar el squid
+		sudo /etc/init.d/squid3 reload : Para que se apliquen los cambios que hagas en los archivos referentes al squid; tambien puedes usar el restart.</p>
 		<h3>1.-Tecleamos en la terminal.</h3>
 		<code> <pre>sudo apt-get install squid3 squidclient squid-cgi</pre></code>
 		<p>NOTA: cuando se este instalando el squid vean con atención que otros paquetes les recomienda instalar por que también utilizamos el servidor apache.</p>
@@ -115,7 +117,7 @@ acl pagpermitidas url_regex -i "/etc/squid/pagpermitidas.txt"
 #BLOQUEA LAS PALABRAS QUE ESTAN EM EL ARCHVIO Y QUE APARECE EN LA URL
 acl nopermitir url_regex -i "/etc/squid/nopermitir.txt"
 
-#ESTAN LAS IPS QUE TIENE PERMISO DE ANTRAR A OTRAS PAGUINAS PERO NO A YOUTUB ET$
+#ESTAN LAS IPS QUE TIENE PERMISO DE ANTRAR A OTRAS PAGINAS PERO NO A YOUTUB ET$
 acl ipspermitidas src "/etc/squid/ipspermitidas.txt"
 
 #PERMITE LA CONECCION HTTPS
@@ -153,11 +155,81 @@ http_access allow puerto
 		</pre></samp>
 		<h3>11.- http_acces</h3>
 		<p>Aquí es donde pueden modificar el idioma de las paginas de error</p>
-		<p>NOTA: Yo lo deje en ingles</p>
-
 		<h3>12.- error_directory /usr/share/squid3/errors/Spanish</h3>
 		<p>Esta es opcional, pero en mi caso tenia una pagina que tardaba mas de 5 minutos en cargar y tuvimos que aumentar el tiempo para que el proxi no mandara error al cargar la pagina</p>
 		<h3>13.- read_timeout 120 minutes</h3>
+		<p>Guardamos y cerramos.</p>
+		<p>Perfecto ya solo nos falta crear los archivos donde ponemos las palabras prohibidas como (sexo, putas, etc.), otro donde ponemos los dominios permitidos otro donde ponemos las paginas permitidas y otro donde ponemos las ips de los jefes.</p>
+		<p>En este archivo van todos los dominios permitidos y el archivo tiene este formato</p>
+		<samp>
+			<pre>
+.baja-california-sur-estado.infoisinfo.com.mx
+.javadl-esd.sun.com
+.sdlc-esd.sun.com
+.javadl.sun.com
+.java.com
+		</pre>
+		</samp>
+		<p>Tecleamos esto:</p>
+		<code>
+			<pre>sudo mkdir /etc/squid/dominiospermitidos.txt</pre>
+		</code>
+		<p>Editamos el archivo con nano o con el editor que prefieran e ingresan los dominios que quieran</p>
+		<p>En este archivo va tu ip, para que tengas acceso a todo; sigue este formato</p>
+		<samp>
+			<pre>
+.172.168.0.3
+.172.168.0.10
+		</pre>
+		</samp>
+		<p>Tecleamos esto:</p>
+		<code>
+			<pre>sudo mkdir /etc/squid/ipslibres.txt</pre>
+		</code>
+		<p>Editamos el archivo con nano o con el editor que prefieran e ingresan las ips que quieran.</p>
+		<p>En este archivo van tododas las ips de los jefes que tiene permiso a todo menos a lo que se tenga en el los archivos de bloqueo y el archivo tiene este formato</p>
+		<samp>
+			<pre>
+.172.168.0.20
+.172.168.0.50
+		</pre>
+		</samp>
+		<p>Tecleamos esto:</p>
+		<code>
+			<pre>sudo mkdir /etc/squid/ipspermitidas.txt</pre>
+		</code>
+		<p>Editamos el archivo con nano o con el editor que prefieran e ingresan las ips que quieras</p>
+		<p>En este archivo van todas las palabras bloqueadas como (sexo, tetas, golfas, etc.) y el archivo tiene este formato</p>
+		<samp>
+			<pre>
+bangbros
+brazzers
+pornografia
+xxx
+sexo
+porn
+sexy
+		</pre>
+		</samp>
+		<p>Tecleamos esto:</p>
+		<code>
+			<pre>sudo mkdir /etc/squid/nopermitir.txt</pre>
+		</code>
+		<p>Editamos el archivo con nano o con el editor que prefieran e ingresan todas las palabras que quieran bloquear</p>
+		<p>En este archivo van todas las paginas que por alguna razon se bloquearon pero si son permitidas y tiene este formato.</p>
+		<samp>
+			<pre>
+^http://172.168/? 
+^http://192.168/?
+^http://10.10.10.20/?
+		</pre>
+		</samp>
+		<p>Tecleamos esto:</p>
+		<code>
+			<pre>sudo mkdir /etc/squid/pagpermitidas.txt</pre>
+		</code>
+		<p>Editamos el archivo con nano o con el editor que prefieran e ingresan todas las direcciones que quieran permitir</p>
+
 	</section>
 	<section>
 		<h2><a id="logrotate">INSTALACIÓN Y CONFIGURACIÓN DE LOGROTATE</a></h2>
