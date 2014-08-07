@@ -1,79 +1,435 @@
 <!DOCTYPE html>
-<html>
-
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Squid3 : Como instalar y configurar el proxy para poder bloquear youtube, facebook, etc.">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Squid3</title>
-  </head>
-
-  <body>
-
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/elkabal82/squid3">View on GitHub</a>
-
-          <h1 id="project_title">Squid3</h1>
-          <h2 id="project_tagline">Como instalar y configurar el proxy para poder bloquear youtube, facebook, etc.</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/elkabal82/squid3/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/elkabal82/squid3/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
-<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
-
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
-
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Squid3 maintained by <a href="https://github.com/elkabal82">elkabal82</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>SQUID3</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="Como instalar y configurar el SQUID3. solucionando el bloqueo de facebook y youtube." />
+  <meta name="author" content="Edgardo Torres"/>
+</head>
+<body>
+  <header>
+    <h1>INSTALACON Y CONFIGURACION DE SQUID 3 CON IPTABLES PARA BLOQUEAR YOUTUBE y FACEBOOK</h1>
+  </header>
+  <nav>
+          <li><a href="#instalacion">Instalación</a></li>
+          <li><a href="#configuracion">Configuración</a></li>
+          <li><a href="#logrotate">Instalacion y Configuracion de LOGROTATE</a></li>
+          <li><a href="#squidview">Instalación y Configuracion de SQUIDVIEW</a></li>
+          <li><a href="#Generacion De Reportes">Generacion De Reportes</a></li>
+          <li><a href="#El Toque Final">El Toque Final</a></li>
+          <li><a href="#Referencias">Referencias</a></li> 
+  </nav>
+  <section>
     
+    <h2><a id="instalacion">INSTALACIÓN DEL SERVIDOR PROXY SQUID3</a></h2>
+    <p>Este proxy se implemento en una maquina de 1gb de ram, un procesador Pentium D y un sistema operativo Ubuntu 12.04LTS. Estoy seguro que si siguen esta guía les funcionara el servidor proxy, Pero si quieren entender bien todo; pasen al apartado de referencias.</p>
+    <p>IMPORTANTE</p>
+    <p>sudo squid3 -k parse : Para comprobar la configuración del archivo squid.conf<br>
+    sudo /etc/init.d/squid3 restart : Para reiniciar el squid<br>sudo /etc/init.d/squid3 reload : Para que se apliquen los cambios que hagas en los archivos referentes al squid; tambien puedes usar el restart.</p>
+    <h3>1.-Tecleamos en la terminal.</h3>
+    <code> <pre>sudo apt-get install squid3 squidclient squid-cgi</pre></code>
+    <p>NOTA: cuando se este instalando el squid vean con atención que otros paquetes les recomienda instalar por que también utilizamos el servidor apache.</p>
+    <h3>2.-Para que esquid3 se inicie al encender la maquina ponemos.</h3>
+    <code><pre>sudo update-rc.d squid3 defaults</pre></code>
+    <p>Al instalar squid3 se crea un usuario y grupo llamado proxy el cual tiene que tener permisos sobre los archivos log y cache</p>
+    <h3>3.-Validar que exista el usuario y grupo, proxy.</h3>
+    <code><pre>grep proxy /etc/{passwd,group} </pre></code>
+    <p>saldría algo como esto</p>
+    <samp><pre>/etc/passwd:proxy:x:13:13:proxy:/bin:/bin/sh
+    /etc/group:proxy:x:13:</pre></samp>
+    <h3>4.-Validar que el usuario y grupo proxy son dueños de /var/spool/squid3 y de /var/log/squid3</h3>
+    <p>tecleamos esto:</p>
+    <code><pre>ls -ld /var/spool/squid3 </pre></code>
+    <p>saldría algo como esto</p>
+    <samp><pre>drwxr-xr-x 18 proxy proxy 4096 2012-10-26 10:20 /var/spool/squid3</pre></samp>
+    <p>tecleamos esto:</p>
+    <code><pre>ls -ld /var/log/squid3/ </pre></code>
+    <p>saldrìa algo como esto:</p>
+    <samp><pre>drwxrwxrwx 2 proxy proxy 4096 2012-10-23 06:30 /var/log/squid3/</pre></samp>
+    <p>NOTA:si no fueran dueños ponemos:</p>
+    <code>chown proxy:proxy /var/spool/squid3 </code>
+    <h3>5.-Para tener los permisos correctos de la carpeta, tecleamos esto:</h3>
+    <code><pre>sudo chmod 755 /var/spool/squid3 </pre></code>
+    <p>Listo hemos instalado nuestro proxy, ahora vamos a configurarlo.</p>
+  </section>
+  <section>
+    <h2><a id="configuracion">CONFIGURACION DEL ARCHIVO SQUID.CONF</a></h2>
+    <p>El archivo de configuración es /etc/squid3/squid.conf lo editamos con vi, nano o el que mas les guste.</p>
+    <p>Tecleamos esto:</p>
+    <code><pre>sudo nano /etc/squid3/squid.conf</pre></code>
+    <p>Comencemos a editar el archivo.</p>
+    <p>Buscamos que en el archivo tengamos esto así: </p>
+    <h3>1.- http_port 3128</h3>
+    <p>Descomentamos y colocamos el tamaño, en mi caso lo pongo en 64 MB</p>
+    <h3>2.- cache_mem 64 MB</h3>
+    <p>Descomentamos y así es como lo tengo yo:</p>
+    <h3>3.- cache_dir ufs /var/spool/squid3 1000 16 256</h3>
+    <p>Descomentamos esto:</p>
+    <h3>4.- maximum_object_size 4096 KB</h3>
+    <p>En el archivo se ven varios ejemplos comentados, nosotros creamos uno llamado abcd, quedando de esta forma:</p>
+    <h3>5.- logformat abcde %ts.%03tu %6tr %>a %Ss/%03Hs%&lt;st%rm %ru %un %Sh/&lt;A %mt [%tl]</h3>
+    <p>Quedando de esta forma en nuestro archivo:</p>
+    <samp><pre>
+    #       The default formats available (which do not need re-defining) are:
+    #       
+    #logformat squid %ts.%03tu %6tr %>a %Ss/%03>Hs %&lt;st %rm %ru %un %Sh/%&lt;A %mt
+    #logformat squidmime %ts.%03tu %6tr %>a %Ss/%03>Hs %&lt;st %rm %ru %un %Sh/%&lt;A %mt$
+    #logformat common %>a %ui %un [%tl] "%rm %ru HTTP/%rv" %>Hs %&lt;st %Ss:%Sh
+    #logformat combined %>a %ui %un [%tl] "%rm %ru HTTP/%rv" %>Hs %&lt;st "%{Referer}>$
+    #Default:
+    logformat abcde %ts.%03tu %6tr %>a %Ss/%03Hs %&lt;st %rm %ru %un %Sh/&lt;A %mt [%tl]
+    # none
 
-  </body>
+      
+    </pre></samp>
+    <p>Descomentamos y ponemos el nombre del formato que creamos, quedando así:</p>
+    <h3>6.- access_log /var/log/squid3/access.log abcde</h3>
+    <p>Descomentamos esto:</p>
+    <h3>7.- cache_log /var/log/squid3/cache.log</h3>
+    <p>Descomentamos esto:</p>
+    <h3>8.- cache_store_log /var/log/squid3/store.log</h3>
+    <p>Descomentamos esto y si no tiene un cero se lo ponemos, de esta forma:</p>
+    <h3>9.- logfile_rotate 0 </h3>
+    <p>Aquí agregamos las reglas a usar</p>
+    <p>NOTA: agregare mi archivo squid.conf para mayor referencia</p>
+    <h3>10.- acl</h3>
+    <samp><pre>
+# Recommended minimum configuration:
+#
+acl manager proto cache_object
+acl localhost src 127.0.0.1/32 ::1
+acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1
+#
+#
+#
+acl ipslibres src "/etc/squid/ipslibres.txt"
+
+#AGRUPA TODA LA RED EN LA QUE ESTAMOS
+acl redlocal src 172.168.2.0/24
+
+#SE ENCUENTRAN LAS LOS DIMINIOS PERMITIDOS
+acl dominiospermitidos dstdomain "/etc/squid/dominiospermitidos.txt"
+
+#SE ENCUENTRAN LAS PAGINAS PERMITIDAS
+acl pagpermitidas url_regex -i "/etc/squid/pagpermitidas.txt"
+#BLOQUEA LAS PALABRAS QUE ESTAN EM EL ARCHVIO Y QUE APARECE EN LA URL
+acl nopermitir url_regex -i "/etc/squid/nopermitir.txt"
+
+#ESTAN LAS IPS QUE TIENE PERMISO DE ANTRAR A OTRAS PAGINAS PERO NO A YOUTUB ET$
+acl ipspermitidas src "/etc/squid/ipspermitidas.txt"
+
+#PERMITE LA CONECCION HTTPS
+acl puerto port 443 631
+    </pre></samp>
+    <p>Aquí permitimos las reglas</p>
+    <p>NOTA: agregare mi archivo squid.conf para mayor referencia</p>
+    <samp><pre>
+# Recommended minimum Access Permission configuration:
+#
+# Only allow cachemgr access from localhost
+#
+#
+#
+#PERMITIMOS TODO A ESTA ACL
+http_access allow ipslibres
+#DENEGAMOS PARA TODAS LAS ACL DESPUES DE ESTA LAS PALABRAS QUE SE ENCUENTRAN
+#EN EL ARCHIVO nopermitir.txt Y ESTA ACOMPA?^?ADA DE LAS ACLs dominiospermitidos
+#y pagpermitidas POR SI ALGUNA PALABRA COMO HOTMAIL.COM LA TOMA COMO
+#PALABRA NO PERMITIDA LE DE ACCESO
+http_access deny nopermitir !dominiospermitidos !pagpermitidas
+
+#CON ESTA PERMITIMOS A LAS IPS QUE ESTAN EN EL ARCHIVO ipspermitidas.txt
+#ACCESOS A TODAS LAS PAGINAS MENOS A LAS BLOQUEADAS POR EL ARCHIVO
+#nopermitir.txt
+http_access allow ipspermitidas
+#CON ESTO BLOQUEAMOS TODAS LAS PAGINAS SOLO PERMITIENDO EL ACCESO A LAS
+#PAGINAS DE LOS ARCHIVOS pagpermitidas.txt Y dominios permitidos.txt
+http_access deny redlocal !pagpermitidas !dominiospermitidos !puerto
+
+#DAMOS EL ACCESOS A LA RED SEGUN LO QUE SE PERMITIO EN LAS REGLAS DE ARRIBA
+http_access allow redlocal
+
+http_access allow puerto
+    </pre></samp>
+    <h3>11.- http_acces</h3>
+    <p>Aquí es donde pueden modificar el idioma de las paginas de error</p>
+    <h3>12.- error_directory /usr/share/squid3/errors/Spanish</h3>
+    <p>Esta es opcional, pero en mi caso tenia una pagina que tardaba mas de 5 minutos en cargar y tuvimos que aumentar el tiempo para que el proxi no mandara error al cargar la pagina</p>
+    <h3>13.- read_timeout 120 minutes</h3>
+    <p>Guardamos y cerramos.</p>
+    <p>Perfecto ya solo nos falta crear los archivos donde ponemos las palabras prohibidas como (sexo, putas, etc.), otro donde ponemos los dominios permitidos otro donde ponemos las paginas permitidas y otro donde ponemos las ips de los jefes.</p>
+    <p>En este archivo van todos los dominios permitidos y el archivo tiene este formato</p>
+    <samp>
+      <pre>
+.baja-california-sur-estado.infoisinfo.com.mx
+.javadl-esd.sun.com
+.sdlc-esd.sun.com
+.javadl.sun.com
+.java.com
+    </pre>
+    </samp>
+    <p>Tecleamos esto:</p>
+    <code>
+      <pre>sudo mkdir /etc/squid/dominiospermitidos.txt</pre>
+    </code>
+    <p>Editamos el archivo con nano o con el editor que prefieran e ingresan los dominios que quieran</p>
+    <p>En este archivo va tu ip, para que tengas acceso a todo; sigue este formato</p>
+    <samp>
+      <pre>
+.172.168.0.3
+.172.168.0.10
+    </pre>
+    </samp>
+    <p>Tecleamos esto:</p>
+    <code>
+      <pre>sudo mkdir /etc/squid/ipslibres.txt</pre>
+    </code>
+    <p>Editamos el archivo con nano o con el editor que prefieran e ingresan las ips que quieran.</p>
+    <p>En este archivo van tododas las ips de los jefes que tiene permiso a todo menos a lo que se tenga en el los archivos de bloqueo y el archivo tiene este formato</p>
+    <samp>
+      <pre>
+.172.168.0.20
+.172.168.0.50
+    </pre>
+    </samp>
+    <p>Tecleamos esto:</p>
+    <code>
+      <pre>sudo mkdir /etc/squid/ipspermitidas.txt</pre>
+    </code>
+    <p>Editamos el archivo con nano o con el editor que prefieran e ingresan las ips que quieras</p>
+    <p>En este archivo van todas las palabras bloqueadas como (sexo, tetas, golfas, etc.) y el archivo tiene este formato</p>
+    <samp>
+      <pre>
+bangbros
+brazzers
+pornografia
+xxx
+sexo
+porn
+sexy
+    </pre>
+    </samp>
+    <p>Tecleamos esto:</p>
+    <code>
+      <pre>sudo mkdir /etc/squid/nopermitir.txt</pre>
+    </code>
+    <p>Editamos el archivo con nano o con el editor que prefieran e ingresan todas las palabras que quieran bloquear</p>
+    <p>En este archivo van todas las paginas que por alguna razon se bloquearon pero si son permitidas y tiene este formato.</p>
+    <samp>
+      <pre>
+^http://172.168/? 
+^http://192.168/?
+^http://10.10.10.20/?
+    </pre>
+    </samp>
+    <p>Tecleamos esto:</p>
+    <code>
+      <pre>sudo mkdir /etc/squid/pagpermitidas.txt</pre>
+    </code>
+    <p>Editamos el archivo con nano o con el editor que prefieran e ingresan todas las direcciones que quieran permitir</p>
+
+  </section>
+  <section>
+    <h2><a id="logrotate">INSTALACIÓN Y CONFIGURACIÓN DE LOGROTATE</a></h2>
+    <p>Instalamos tecleando esto:</p>
+    <code>
+      <pre>sudo apt-get install logrotate</pre>
+    </code>
+    <p>Editamos el archivo que se encuentra en /etc/logrotate.d escribimos esto: </p>
+    <code>
+      <pre>sudo nano /etc/logrotate.d/squid3</pre>
+    </code>
+    <p>Colocamos esto en el archivo:</p>
+    <samp>
+      <pre>
+#
+#       Logrotate for squid3.
+#       Rotate logs every week and keep mountly logs for reporting
+#
+/var/log/squid3/access.log {  
+    weekly
+    rotate 5
+    copytruncate
+    compress
+    notifempty
+    missingok
+}
+
+/var/log/squid3/cache.log {
+    weekly
+    rotate 5
+    copytruncate
+    compress
+    notifempty
+    missingok
+}
+
+/var/log/squid3/store.log {
+    weekly
+    rotate 5
+    copytruncate
+    compress
+    notifempty
+    missingok
+# This script asks squid to rotate its logs on its own.
+# Restarting squid is a long process and it is not worth
+# doing it just to rotate logs
+    postrotate 
+      /usr/sbin/squid3 -k rotate
+    endscript
+}
+      </pre>
+    </samp>
+  </section>
+  <section>
+    <h2><a id="squidview">INSTALACIÓN Y CONFIGURACIÓN DE SQUIDVIEW</a></h2>
+    <p>Es para ver en tiempo real que ip entra a que pagina</p>
+    <code>
+      <pre>sudo apt-get install squidview</pre>
+    </code>
+    <p>NOTA: squidview busca el archivo en /var/log/squid/access.log pero nosotros trabajamos con squid3, por tal motivo no encuentra el archivo, por que nosotros lo tenemos en /var/log/squid3/access.log</p>
+    <p>Así que verificamos que exista la carpeta squid en la carpeta /var/log, si no existe la creamos:</p>
+    <code>
+      <pre>mkdir /var/log/squid </pre>
+    </code>
+    <p>Creamos el enlace, tecleando esto:</p>
+    <code>
+      <pre>sudo ln -s /var/log/squid3/access.log /var/log/squid</pre>
+    </code>
+    <p>Para correr el squidview teclamos:</p>
+    <code>
+      <pre>sudo squidview</pre>
+    </code>
+    <p>NOTA: lo que verán en la pantalla depende de la configuración del archivo access.log</p>
+  </section>
+  <section>
+    <h2><a id="Generacion De Reportes">GENERACIÓN AUTOMATICA DE REPORTES DIARIOS Y MANUALMENTE</a></h2>
+    <p>Para generar los reportes instalamos SARG, tecleamos esto:</p>
+    <code>
+      <pre>sudo apt-get install sarg</pre>
+    </code>
+    <p>Editamos el archivo sarg.conf que se encuentra en /etc/squid tecleamos esto:</p>
+    <samp>
+      <pre>
+language Spanish
+access_log /var/log/squid3/access.log
+title "Reportes de Acceso Web por Usuarios"
+output_dir /var/www/squid-reports/Manual
+      </pre>
+    </samp>
+    <p>NOTA:Si algunas lineas no se encuentran en el archivo simplemente agregenlas.</p>
+    <p>Creamos el directorio en al cual se almacenan los reportes manuales, tecleamos esto:</p>
+    <code>
+      <pre>mkdir /var/www/squid-reports/Manual</pre>
+    </code>
+    <p>Para crear el rerpote Manual del día en curso, tecleamos:</p>
+    <code>
+      <pre>sudo sarg</pre>
+    </code>
+    <p>Para crear los reportes automáticos creamos el archivo, tecleando esto:</p>
+    <code>
+      <pre>sudo nano /etc/cron.daily/sarg</pre>
+    </code>
+    <p>Agregamos esto al archivo:</p>
+    <code>
+      <pre>
+# Eliminar reportes diarios con mas de 10 dias de antiguedad
+echo "Rotacion diaria del dia `date +%d-%m-%Y`" >> /var/log/squid3/sarg-rotate.log
+find /var/www/squid-reports/Diario -type d -mtime +10 -exec rm -rf {} \; >> /var/log/squid3/sarg-rotate.log 2>&1
+rm -rf /var/www/squid-reports/Diario/index.html
+
+# Ejeuctar sarg
+#!/bin/bash
+exec /usr/bin/sarg \
+-o /var/www/squid-reports/Diario \
+-d "$(date --date "1 day ago" +%d/%m/%Y)" > /dev/null 2>&1
+exit 0
+    </pre>
+    </code>
+    <p>Le damos permisos al archivo, tecleando esto:</p>
+    <code>
+      <pre>sudo chmod +x /etc/cron.daily/sarg</pre>
+    </code>
+    <p>Creamos la carpeta de Diario, tecleando esto:</p>
+    <code>
+      <pre>sudo mkdir /var/www/squid-reports/Diario</pre>
+    </code>
+    <p>Hacemos que crontab lo corra automáticamente a las 6:30 a.m. Todos los días.</p>
+    <p>Editamos el archivo crontab, tecleando esto:</p>
+    <code>
+      <pre>sudo nano /etc/crontab</pre>
+    </code>
+    <p>y agregamos esta linea</p>
+    <code>
+      <pre>30 6   * * *   root    . /etc/cron.daily/sarg</pre>
+    </code>
+  </section>
+  <section>
+    <h2><a id="El Toque Final">EL TOQUE FINAL</a></h2>
+    <p>Tenemos que hacer que nuestro servidor proxy se convierta en la puerta de enlace de las maquinas de los usuarios, editamos el archivo tecleando esto:</p>
+    <code>
+      <pre>sudo nano /etc/sysctl.conf</pre>
+    </code>
+    <p>Después buscamos esta linea, la habilitamos y le ponemos un 1, quedando así:</p>
+    <samp>
+      <pre>net.ipv4.ip_forward=1</pre>
+    </samp>
+    <p>Guardamos y cerramos el archivo</p>
+    <p>Ahora editamos el siguiente archivo, colocándole un 1, tecleamos esto:</p>
+    <code>
+      <pre>sudo nano /proc/sys/net/ipv4/ip_forward</pre>
+    </code>
+    <p>Listo con esto ya pueden entrar los paquetes por la tarjeta de red de nuestro servidor, ahora solo falta direccionar esos paquetes a nuestro proxy, creamos el archivo, tecleando esto:</p>
+    <code>
+      <pre>sudo nano /etc/init.d/redireccionamientoeth1</pre>
+    </code>
+    <p>Ingresamos esto en el archivo:</p>
+    <p>NOTA: Mi tarjeta de red, el sistema me la reconoce como eth1, verifica en tu sistema como es que te la reconoce y si es diferente solo cambia el eth1 por la tuya.</p>
+    <p>Existen servidores proxy públicos que salen por otros puertos, simplemente agrega ese puerto en el archivo y listo.</p>
+    <code>
+      <pre>
+udo iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 3128 -j REDIRECT --to-port 3128 
+
+sudo iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 80 -j REDIRECT --to-port 3128 
+
+sudo iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 8080 -j REDIRECT --to-port 3128 
+
+sudo iptables -t nat -A PREROUTING -i eth1 -p tcp --dport 443 -j REDIRECT --to-port 3128
+      </pre>
+    </code>
+    <p>Guardamos y cerramos</p>
+    <p>Le damos permisos de ejecución:</p>
+    <code>
+      <pre>sudo chmod +x /etc/init.d/redireccionamientoeth1</pre>
+    </code>
+    <p>Creamos un enlace  en /etc/rc2 para que se ejecute al iniciar la maquina, tecleamos esto:</p>
+    <code>
+      <pre>sudo ln -sf /etc/init.d/redireccionamientoeth1 /etc/rc2.d/S98redireccionamientoeth1</pre>
+    </code>
+    <p>NOTA:para el enlace se tiene que hacer con toda la ruta. Ejemplo si tu ya estas en la ruta:/etc/init.d $
+    de todas formas tiene que poner toda la ruta tal y como esta en el ejemplo</p>
+    <p>para ver las reglas que pone el archivo teclea esto:</p>
+    <code>
+      <pre>sudo iptables -t nat -nL</pre>
+    </code>
+    <p>Para borrar las reglas que pone el archivo tecleamos esto:</p>
+    <code>
+      <pre>sudo iptables -t nat -F</pre>
+    </code>
+    <p>Hasta aquí ya tiene perfectamente tu servidor proxy ya solo falta ir a cada maquina y configurar el navegador  para que pase por el proxy, Si así es, tienes que hacerlo maquina por maquina y navegador por navegador, existe otra opción para que el navegador de cada maquina encuentre la configuración automáticamente pero eso no lo he implementado.</p>
+    <p>Nota: cada navegador tiene su forma particular de hacer que pase por el proxy, así que solo vete a las preferencias o herramientas de tu navegador y configuralo, no es difícil, solo recuerda que la ip es la de tu servido y el puerto por predeterminado es el 3128 quedando algo así 192.168.0.3:3128</p>  
+
+    <h3>CONFIGURACIÓN DE LA MAQUINA DEL USUARIO</h3>
+    <p>En la configuración de red seria solo ponerle en GETWAY o PUERTA DE ENLACE la dirección IP del servidor proxy</p>
+    <p>Recuerda poner los DNS para que funcionen otros programas</p>
+    <p>Listo con esto terminamos, espero sea de su ayuda.</p>
+  </section>
+  <section>
+    <h2><a id="Referencias"> REFERENCIAS</a></h2>
+    <a href="http://www.squid-cache.org/" target="_blank">Pagina principal de squid</a>
+    <br>
+    <a href="http://tuxjm.net/docs/Manual_de_Instalacion_de_Servidor_Proxy_Web_con_Ubuntu_Server_y_Squid/html-multiples/" target="_blank">Obligatorio leer esto.</a>
+  </section>
+</body>
 </html>

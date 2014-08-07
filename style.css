@@ -1,0 +1,85 @@
+body 
+{
+  background-color: rgba(92, 90, 90, 0.12);
+  border: 0;
+  font-size: 16px;
+  font: inherit;
+  margin:32px;
+  vertical-align: baseline;
+}
+
+code pre
+{
+	background-color: rgba(254, 254, 244, 0.58); ;
+	border:1px solid #D7D8C8;
+	font: inherit;
+	margin: 0 3em;
+	overflow: auto;
+	overflow-y: hidden;
+	padding: .5em;
+  	word-wrap:normal;
+
+}
+h1, h2
+{	
+	text-align: center;
+}
+h3
+{
+	border-bottom: 1px solid #ccc;
+}
+nav 
+{
+	background-color:#B22222;
+	border-radius: 20%;
+	color: #FDFDFB;
+  	float:left;
+  	position:fixed;
+  	width:170px;
+	
+	-webkit-border-top-right-radius: 4px;
+	-webkit-border-bottom-right-radius: 4px;
+	-moz-border-radius-topright: 4px;
+	-moz-border-radius-bottomright: 4px;
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+	padding: 34px 25px 22px 50px;
+	margin: 30px 25px 0 0;
+	-webkit-font-smoothing: antialiased;
+}
+nav li a
+{
+	color:rgba(254, 244, 244, .58);
+	text-decoration:none;
+}
+samp pre
+{
+	background-color: rgba(254, 244, 244, 0.58); ;
+	border:1px solid #D7D8C8;
+	margin: 0 3em;
+	overflow: auto;
+	overflow-y: hidden;
+	padding: .5em;
+}
+section
+{
+	
+	margin:0 0 0 30%;
+	width: 70%;
+}
+
+@media print, screen and (max-width:906px)
+{
+	nav
+	{
+	border-radius:0;
+	float:none;
+    position:static;
+    width:auto;
+	}
+	section
+	{
+		margin: 0;
+		width:auto;
+	}
+}
