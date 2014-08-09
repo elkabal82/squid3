@@ -121,6 +121,7 @@ acl ipspermitidas src "/etc/squid/ipspermitidas.txt"
 
 #PERMITE LA CONECCION HTTPS
 acl puerto port 443 631
+    <h3>11.- http_acces</h3>
     </pre></samp>
     <p>Aquí permitimos las reglas</p>
     <p>NOTA: agregare mi archivo squid.conf para mayor referencia</p>
@@ -152,7 +153,6 @@ http_access allow redlocal
 
 http_access allow puerto
     </pre></samp>
-    <h3>11.- http_acces</h3>
     <p>Aquí es donde pueden modificar el idioma de las paginas de error</p>
     <h3>12.- error_directory /usr/share/squid3/errors/Spanish</h3>
     <p>Esta es opcional, pero en mi caso tenia una pagina que tardaba mas de 5 minutos en cargar y tuvimos que aumentar el tiempo para que el proxi no mandara error al cargar la pagina</p>
